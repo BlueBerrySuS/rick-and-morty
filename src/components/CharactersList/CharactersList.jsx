@@ -96,7 +96,7 @@ const CharactersList = ({ data }) => {
                 <div className={s.characters__search_filter}>
                     <FilterByName 
                         onHandleChange={(e) => onHandleFilterByName(e.target.value)} 
-                        placeholder="Введите имя"
+                        placeholder="Filter by name"
                     />
                 </div>
                 <div className={s.characters__search_filter}>
