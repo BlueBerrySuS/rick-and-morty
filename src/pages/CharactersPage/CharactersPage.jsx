@@ -1,4 +1,4 @@
-import { getCharacters } from "../../utils/charctersOptions"
+import { getCharacters } from "../../utils/dataFetchOptions"
 import { useState, useEffect } from "react";
 import CharactersList from "../../components/CharactersList/CharactersList";
 import s from './CharactersPage.module.css'
@@ -25,7 +25,7 @@ const CharactersPage = () => {
         <div className={s.characters__wrapper}>
             <main className={s.characters}>
                 <div className={s.characters__img}>
-                    <img src={image} alt="" />
+                    <img src={image} alt="Characters" />
                 </div>
                 <CharactersList data={data}/>
             </main>
