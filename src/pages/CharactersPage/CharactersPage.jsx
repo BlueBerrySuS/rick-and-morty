@@ -1,7 +1,8 @@
-import { getCharacters } from "../../utils/charctersOptions"
+import { getCharacters } from "../../utils/dataFetchOptions"
 import { useState, useEffect } from "react";
 import CharactersList from "../../components/CharactersList/CharactersList";
 import s from './CharactersPage.module.css'
+import image from '../../assets/img/characters-img.svg'
 
 const CharactersPage = () => {
     const [data, setData] = useState(null)
@@ -24,7 +25,7 @@ const CharactersPage = () => {
         <div className={s.characters__wrapper}>
             <main className={s.characters}>
                 <div className={s.characters__img}>
-                    <img src="" alt="" />
+                    <img src={image} alt="Characters" />
                 </div>
                 <CharactersList data={data}/>
             </main>

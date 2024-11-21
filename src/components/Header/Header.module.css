@@ -1,0 +1,98 @@
+.header__wrapper {
+    position: sticky;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0% 17%;
+    height: 60px;
+    backdrop-filter: blur(10px);
+    box-shadow: -2px 0px 8px 2px rgba(0, 0, 0, 0.10);
+    z-index: 1000;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav__buttons {
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 21.04px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.nav__buttons.active {
+    border-bottom: 2px solid black;
+}
+
+.header__burger_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    display: none;
+}
+
+.burger__container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin-top: 60px;
+    height: 100vh;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 100px;
+
+}
+
+.burger__buttons {
+    font-family: Roboto, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 37.41px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.burger__buttons.active {
+    border-bottom: 3px solid black;
+}
+
+@media screen and (max-width: 1500px) {
+    .header__wrapper { 
+        padding: 0% 12%;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .header__wrapper {
+        padding: 0% 2%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .header__nav {
+        display: none;
+    }
+    .header__burger_button {
+        display: block;
+    }
+}

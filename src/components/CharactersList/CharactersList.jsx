@@ -1,8 +1,8 @@
-import { genderOptions, speciesOptions, statusOptions } from "../../utils/options"
+import { genderOptions, speciesOptions, statusOptions } from "../../utils/selectOptions"
 import FilterBySelect from "../Search/FilterBySelect";
 import FilterByName from "../Search/FilterByName";
 import { useState } from "react";
-import { getFiltredCharacters } from "../../utils/charctersOptions";
+import { getFiltredCharacters } from "../../utils/dataFetchOptions";
 import CharacterCard from "./CharacterCard";
 import s from '../../pages/CharactersPage/CharactersPage.module.css'
 import NoData from "./NoData";
@@ -21,73 +21,93 @@ const CharactersList = ({ data }) => {
     
 
     const onHandleFilterByName = async (value) => {
-        setName(value);
-        const data = await getFiltredCharacters(
-            1,
-            gender,
-            species,
-            status,
-            value
-        );
-        setCurrentPage(1);
-        setCharacters(data.results);
-        setAllPage(data.info.pages);
+        try {
+            setName(value);
+            const data = await getFiltredCharacters(
+                1,
+                gender,
+                species,
+                status,
+                value
+            );
+            setCurrentPage(1);
+            setCharacters(data.results);
+            setAllPage(data.info.pages);
+        } catch {
+            setCharacters(undefined);
+        }
     }
 
     const onHandleFilterByGender = async (value) => {
-        setGender(value);
-        const data = await getFiltredCharacters(
-            1,
-            value,
-            species,
-            status,
-            name
-        );
-        setCurrentPage(1);
-        setCharacters(data.results);
-        setAllPage(data.info.pages);
+        try {
+            setGender(value);
+            const data = await getFiltredCharacters(
+                1,
+                value,
+                species,
+                status,
+                name
+            );
+            setCurrentPage(1);
+            setCharacters(data.results);
+            setAllPage(data.info.pages);
+        } catch {
+            setCharacters(undefined);
+        }
     }
 
     const onHandleFilterBySpecies = async (value) => {
-        setSpecies(value);
-        const data = await getFiltredCharacters(
-            1,
-            gender,
-            value,
-            status,
-            name
-        );
-        setCurrentPage(1);
-        setCharacters(data.results);
-        setAllPage(data.info.pages);
+        try {
+            setSpecies(value);
+            const data = await getFiltredCharacters(
+                1,
+                gender,
+                value,
+                status,
+                name
+            );
+            setCurrentPage(1);
+            setCharacters(data.results);
+            setAllPage(data.info.pages);
+        } catch {
+            setCharacters(undefined);
+        }
     }
 
     const onHandleFilterByStatus = async (value) => {
-        setStatus(value);
-        const data = await getFiltredCharacters(
-            1,
-            gender,
-            species,
-            value,
-            name
-        );
-        setCurrentPage(1);
-        setCharacters(data.results);
-        setAllPage(data.info.pages);
+        try {
+            setStatus(value);
+            const data = await getFiltredCharacters(
+                1,
+                gender,
+                species,
+                value,
+                name
+            );
+            setCurrentPage(1);
+            setCharacters(data.results);
+            setAllPage(data.info.pages);
+        } catch {
+            setCharacters(undefined);
+        }
     }
 
     const onHandlePageChange = async (page) => {
-        setCurrentPage(page);
-        const data = await getFiltredCharacters(
-            page,
-            gender,
-            species,
-            status,
-            name
-        );
-        setCharacters(data.results);
-        setAllPage(data.info.pages);
-        window.scroll(0,0);
+        try {
+            setCurrentPage(page);
+            const data = await getFiltredCharacters(
+                page,
+                gender,
+                species,
+                status,
+                name
+            );
+            setCharacters(data.results);
+            setAllPage(data.info.pages);
+            window.scroll(0,0);
+        } catch {
+            setCharacters(undefined);   
+        }
     }
 
     return (
@@ -96,7 +116,7 @@ const CharactersList = ({ data }) => {
                 <div className={s.characters__search_filter}>
                     <FilterByName 
                         onHandleChange={(e) => onHandleFilterByName(e.target.value)} 
-                        placeholder="Введите имя"
+                        placeholder="Filter by name"
                     />
                 </div>
                 <div className={s.characters__search_filter}>
@@ -125,15 +145,17 @@ const CharactersList = ({ data }) => {
                 </div>
             </div>
 
-            <div className={s.characters__list}>
-                {characters === undefined
-                    ? <NoData/> 
-                    : characters.map((character) => (
-                        <CharacterCard key={character.id} character={character}/>
-                    ))
-                }
-            </div>
-            <Paginator onHandleChange={onHandlePageChange} page={currentPage} allPages={allPage}/>
+            {characters === undefined
+            ? <NoData/>
+            :   <>
+                    <div className={s.characters__list}>
+                        {characters.map((character) => (
+                            <CharacterCard key={character.id} character={character}/>
+                        ))}
+                    </div>
+                    {!(allPage < 2) && <Paginator onHandleChange={onHandlePageChange} page={currentPage} allPages={allPage}/>}
+                </>
+            }
         </>
     )
 }
