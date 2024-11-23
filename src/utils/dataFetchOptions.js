@@ -23,13 +23,22 @@ export const getFiltredCharacters = async (page, gender, species, status, name) 
     const response = await fetch(url);
 
     if (!response.ok) {
-        console.error("Failed to fetch data");
-        throw new Error(`getCharacters response error: ${response.status}`)
+        throw new Error(`getFiltredCharacters response error: ${response.status}`)
     }
 
     const data = await response.json();
     return data;
 };
+
+export const getCharacterById = async ( id ) => {
+    const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+
+    if(!response.ok)
+        throw new Error(`getCharacterById response error: ${response.status}`);
+
+    const data = await response.json();
+    return data;
+}
 
 export const getEpisodes = async () => {
     const response = await fetch(`https://rickandmortyapi.com/api/episode`);
@@ -59,4 +68,22 @@ export const getFiltredEpisodes = async (page,name) => {
 
     const data = await response.json();
     return data;
+}
+
+export const getEpisodeById = async (id) => {
+    const response = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
+
+    if(!response.ok)
+        throw new Error(`getEpisodeById response error: ${response.status}`)
+
+    const data = await response.json();
+    return data;
+}
+
+
+export const getEndOfUrl = (url) => {
+    const pattern = /\/(\d+)$/;
+    const match = url.match(pattern);
+    return match? match[1] : null;
+    
 }

@@ -15,16 +15,46 @@ const Header = () => {
                     <img src={logo} alt="" />
                 </div>
                 <div className={s.header__nav}>
-                    <NavLink className={({ isActive }) => `${s.nav__buttons} ${isActive ? s.active : ''}`} to={'/characters'}>Characters</NavLink>
-                    <NavLink className={({ isActive }) => `${s.nav__buttons} ${isActive ? s.active : ''}`} to={'/locations'}>Locations</NavLink>
-                    <NavLink className={({ isActive }) => `${s.nav__buttons} ${isActive ? s.active : ''}`} to={'/episodes'}>Episodes</NavLink>
+                    <NavLink 
+                        className={({ isActive }) => `${s.nav__buttons} ${isActive ? s.active : ''}`} 
+                        to={'/'}
+                    >
+                        Characters
+                    </NavLink>
+                    <NavLink 
+                        className={({ isActive }) => `${s.nav__buttons} ${isActive ? s.active : ''}`} 
+                        to={'/locations'}
+                    >
+                        Locations
+                    </NavLink>
+                    <NavLink 
+                        className={({ isActive }) => `${s.nav__buttons} ${isActive ? s.active : ''}`} 
+                        to={'/episodes'}
+                    >
+                        Episodes
+                    </NavLink>
                 </div>
                 <div className={s.header__burger_button} onClick={() => setIsActive(!isActive)}>
                     <img src={isActive? close_icon : burger_icon} alt="" />
                     { isActive && <div className={s.burger__container}>
-                        <NavLink className={({ isActive }) => `${s.burger__buttons} ${isActive ? s.active : ''}`} to={'/characters'}>Characters</NavLink>
-                        <NavLink className={({ isActive }) => `${s.burger__buttons} ${isActive ? s.active : ''}`} to={'/locations'}>Locations</NavLink>
-                        <NavLink className={({ isActive }) => `${s.burger__buttons} ${isActive ? s.active : ''}`} to={'/episodes'}>Episodes</NavLink>
+                        <NavLink 
+                            className={({ isActive }) => `${s.burger__buttons} ${isActive ? s.active : ''}`} 
+                            to={'/'}
+                        >
+                            Characters
+                        </NavLink>
+                        <NavLink 
+                            className={({ isActive }) => `${s.burger__buttons} ${isActive ? s.active : ''}`}
+                            to={'/locations'}
+                        >
+                            Locations
+                        </NavLink>
+                        <NavLink 
+                            className={({ isActive }) => `${s.burger__buttons} ${isActive ? s.active : ''}`} 
+                            to={'/episodes'}
+                        >
+                            Episodes
+                        </NavLink>
                     </div>}
                 </div>
             </div>

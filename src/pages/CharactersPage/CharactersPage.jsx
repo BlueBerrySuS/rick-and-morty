@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import CharactersList from "../../components/CharactersList/CharactersList";
 import s from './CharactersPage.module.css'
 import image from '../../assets/img/characters-img.svg'
+import PageLoader from "../../components/Loader/PageLoader";
 
 const CharactersPage = () => {
     const [data, setData] = useState(null)
@@ -19,7 +20,7 @@ const CharactersPage = () => {
         getData();
     }, [])
 
-    if(!data) return <p>ЗАГРУЗКА</p>
+    if(!data) return <PageLoader/>
 
     return (
         <div className={s.characters__wrapper}>

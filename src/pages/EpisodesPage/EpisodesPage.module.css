@@ -47,7 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 26px 10px;
+    padding: 26px 8px;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.14),
         0px 3px 4px 0px rgba(0, 0, 0, 0.12),
         0px 1px 5px 0px rgba(0, 0, 0, 0.2);
@@ -95,4 +95,43 @@
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
 
+}
+
+@media screen and (max-width: 1500px) {
+    .episodes__wrapper { 
+        padding: 0% 12%;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .episodes__wrapper {
+        padding: 0% 2%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .episodes__list {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .episodes__img img {
+        width: 80%;
+    }
+    .episodes__list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .episodes__search {
+        flex-direction: column;
+    }
+    .episodes__search_filter {
+        width: 100%;
+    }
+    .episodes__list {
+        grid-template-columns: 1fr;
+    }
 }

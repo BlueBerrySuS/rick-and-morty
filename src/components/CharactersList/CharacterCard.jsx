@@ -1,12 +1,13 @@
 import { useState } from "react";
 import s from "../../pages/CharactersPage/CharactersPage.module.css"
 import Loader from "../Loader/Loader";
+import { Link } from "react-router-dom";
 
 const CharacterCard = ({ character }) => {
     const [isLoaded, setIsLoaded] = useState(false)
 
     return (
-        <div className={s.character}>
+        <Link to={`characters/${character.id}`} className={s.character}>
             <div className={s.character__img}>
                 {!isLoaded && <Loader/>}
                 <img src={character.image} alt={character.name} onLoad={() => setIsLoaded(true)}/>
@@ -24,7 +25,7 @@ const CharacterCard = ({ character }) => {
                     {character.status} - {character.species}
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 
