@@ -8,14 +8,8 @@ export const getCharacters = async () => {
     return data;
 };
 
-export const getFiltredCharacters = async (page, gender, species, status, name) => {
-    const params = new URLSearchParams();
-
-    if (page) params.append("page", page);
-    if (gender && gender !== "Gender") params.append("gender", gender);
-    if (species && species !== "Species") params.append("species", species);
-    if (status && status !== "Status") params.append("status", status);
-    if (name) params.append("name", name);
+export const getFiltredCharacters = async (queryParams) => {
+    const params = new URLSearchParams(queryParams);
 
     const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
 
@@ -23,13 +17,22 @@ export const getFiltredCharacters = async (page, gender, species, status, name) 
     const response = await fetch(url);
 
     if (!response.ok) {
-        console.error("Failed to fetch data");
-        throw new Error(`getCharacters response error: ${response.status}`)
+        throw new Error(`getFiltredCharacters response error: ${response.status}`)
     }
 
     const data = await response.json();
     return data;
 };
+
+export const getCharacterById = async ( id ) => {
+    const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+
+    if(!response.ok)
+        throw new Error(`getCharacterById response error: ${response.status}`);
+
+    const data = await response.json();
+    return data;
+}
 
 export const getEpisodes = async () => {
     const response = await fetch(`https://rickandmortyapi.com/api/episode`);
@@ -59,4 +62,22 @@ export const getFiltredEpisodes = async (page,name) => {
 
     const data = await response.json();
     return data;
+}
+
+export const getEpisodeById = async (id) => {
+    const response = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
+
+    if(!response.ok)
+        throw new Error(`getEpisodeById response error: ${response.status}`)
+
+    const data = await response.json();
+    return data;
+}
+
+
+export const getEndOfUrl = (url) => {
+    const pattern = /\/(\d+)$/;
+    const match = url.match(pattern);
+    return match? match[1] : null;
+    
 }

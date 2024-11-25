@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import s from './EpisodesPage.module.css';
 import image from '../../assets/img/episodes-img.svg'
 import EpisodesList from "../../components/EpisodesList/EpisodesList";
+import PageLoader from "../../components/Loader/PageLoader";
 
 const EpisodesPage = () => {
     const [data, setData] = useState(null);
@@ -19,7 +20,7 @@ const EpisodesPage = () => {
         getData();
     }, [])
 
-    if(!data) return <p>Loading</p>;
+    if(!data) return <PageLoader/>;
 
     return (
         <>

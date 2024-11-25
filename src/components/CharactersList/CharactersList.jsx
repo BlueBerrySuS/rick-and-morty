@@ -1,113 +1,82 @@
 import { genderOptions, speciesOptions, statusOptions } from "../../utils/selectOptions"
 import FilterBySelect from "../Search/FilterBySelect";
 import FilterByName from "../Search/FilterByName";
-import { useState } from "react";
-import { getFiltredCharacters } from "../../utils/dataFetchOptions";
+import { useEffect, useState } from "react";
+import { getCharacters, getFiltredCharacters } from "../../utils/dataFetchOptions";
 import CharacterCard from "./CharacterCard";
 import s from '../../pages/CharactersPage/CharactersPage.module.css'
 import NoData from "./NoData";
 import Paginator from "../Pagination/Paginator";
+import { replace, useSearchParams } from "react-router-dom";
 
 
-const CharactersList = ({ data }) => {
+const CharactersList = ({setIsLoaded}) => {
 
-    const [characters, setCharacters] = useState(data.results);
-    const [currentPage,setCurrentPage] = useState(1);
-    const [allPage, setAllPage] = useState(data.info.pages);
-    const [name, setName] = useState('');
-    const [gender, setGender] = useState('Gender');
-    const [status, setStatus] = useState('Status');
-    const [species, setSpecies] = useState('Species');
-    
+    const [characters, setCharacters] = useState(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [queryParams, setQueryParams] = useState({});
+    const [allPage, setAllPage] = useState(null);
 
-    const onHandleFilterByName = async (value) => {
-        try {
-            setName(value);
-            const data = await getFiltredCharacters(
-                1,
-                gender,
-                species,
-                status,
-                value
-            );
-            setCurrentPage(1);
-            setCharacters(data.results);
-            setAllPage(data.info.pages);
-        } catch {
-            setCharacters(undefined);
+    useEffect(() => {
+        if(!searchParams.get("page"))
+            setSearchParams({ page: '1' }, {replace: true})
+        else {
+            const newQueryParams = {}
+            searchParams.forEach((value,key) => {
+                newQueryParams[key] = value
+            })
+            setQueryParams(newQueryParams);
         }
+    }, [searchParams]);
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await getCharacters();
+                setCharacters(data.results);
+                setAllPage(data.info.pages)
+            } catch(error) {
+                console.error(error);
+            } finally {
+                setIsLoaded(true);
+            }
+        }
+        getData();
+    }, [])
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await getFiltredCharacters(queryParams);
+                setCharacters(data.results);
+                setAllPage(data.info.pages);
+            } catch (error) {
+                setCharacters(null);
+                setAllPage(null);
+            }
+        }
+        getData();
+    }, [queryParams])
+
+    const onHandleFilterChange = (filterKey, value) => {
+        const newQueryParams = {...queryParams, page: 1}
+        
+        if(value) 
+            newQueryParams[filterKey] = value
+        else 
+            delete newQueryParams[filterKey];
+
+        setSearchParams(newQueryParams, {replace: true});
+
     }
 
-    const onHandleFilterByGender = async (value) => {
-        try {
-            setGender(value);
-            const data = await getFiltredCharacters(
-                1,
-                value,
-                species,
-                status,
-                name
-            );
-            setCurrentPage(1);
-            setCharacters(data.results);
-            setAllPage(data.info.pages);
-        } catch {
-            setCharacters(undefined);
+    const onHandlePageChange = async (value) => {
+        const newQueryParams = {
+            ...queryParams,
+            page: value,
         }
-    }
-
-    const onHandleFilterBySpecies = async (value) => {
-        try {
-            setSpecies(value);
-            const data = await getFiltredCharacters(
-                1,
-                gender,
-                value,
-                status,
-                name
-            );
-            setCurrentPage(1);
-            setCharacters(data.results);
-            setAllPage(data.info.pages);
-        } catch {
-            setCharacters(undefined);
-        }
-    }
-
-    const onHandleFilterByStatus = async (value) => {
-        try {
-            setStatus(value);
-            const data = await getFiltredCharacters(
-                1,
-                gender,
-                species,
-                value,
-                name
-            );
-            setCurrentPage(1);
-            setCharacters(data.results);
-            setAllPage(data.info.pages);
-        } catch {
-            setCharacters(undefined);
-        }
-    }
-
-    const onHandlePageChange = async (page) => {
-        try {
-            setCurrentPage(page);
-            const data = await getFiltredCharacters(
-                page,
-                gender,
-                species,
-                status,
-                name
-            );
-            setCharacters(data.results);
-            setAllPage(data.info.pages);
-            window.scroll(0,0);
-        } catch {
-            setCharacters(undefined);   
-        }
+        setSearchParams(newQueryParams, {replace: true});
+        window.scroll(0,0);
     }
 
     return (
@@ -115,37 +84,35 @@ const CharactersList = ({ data }) => {
             <div className={s.characters__search}>
                 <div className={s.characters__search_filter}>
                     <FilterByName 
-                        onHandleChange={(e) => onHandleFilterByName(e.target.value)} 
+                        onHandleChange={(e) => onHandleFilterChange("name", e.target.value)}
+                        value={queryParams.name? queryParams.name : ""} 
                         placeholder="Filter by name"
                     />
                 </div>
                 <div className={s.characters__search_filter}>
                     <FilterBySelect 
-                        onHandleChange={onHandleFilterByGender} 
-                        value={gender} 
-                        defaultValue='Gender' 
+                        onHandleChange={value => onHandleFilterChange("gender", value)} 
+                        value={queryParams.gender? queryParams.gender : ""} 
                         options={genderOptions}
                     />
                 </div>
                 <div className={s.characters__search_filter}>
                     <FilterBySelect 
-                        onHandleChange={onHandleFilterBySpecies} 
-                        value={species} 
-                        defaultValue='Species' 
+                        onHandleChange={value => onHandleFilterChange("species", value)} 
+                        value={queryParams.species? queryParams.species : ""}  
                         options={speciesOptions}
                     />
                 </div>
                 <div className={s.characters__search_filter}>
                     <FilterBySelect 
-                        onHandleChange={onHandleFilterByStatus} 
-                        value={status} 
-                        defaultValue='Status' 
+                        onHandleChange={value => onHandleFilterChange("status", value)} 
+                        value={queryParams.status? queryParams.status : ""}  
                         options={statusOptions}
                     />
                 </div>
             </div>
 
-            {characters === undefined
+            {!characters
             ? <NoData/>
             :   <>
                     <div className={s.characters__list}>
@@ -153,7 +120,7 @@ const CharactersList = ({ data }) => {
                             <CharacterCard key={character.id} character={character}/>
                         ))}
                     </div>
-                    {!(allPage < 2) && <Paginator onHandleChange={onHandlePageChange} page={currentPage} allPages={allPage}/>}
+                    {!(allPage < 2) && <Paginator onHandleChange={onHandlePageChange} page={queryParams.page} allPages={allPage}/>}
                 </>
             }
         </>

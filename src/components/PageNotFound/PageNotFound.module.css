@@ -1,0 +1,41 @@
+.error__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 60px);
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    font-family: Roboto, sans-serif;
+    font-weight: 600;
+    margin-top: -60px;
+}
+
+.error__title {
+    font-size: 100px;
+}
+
+.error__subtitle {
+    font-size: 30px;
+    font-weight: 500;
+    color: gray;
+}
+
+.go_back_btn {
+    margin-top: 40px;
+    padding: 8px 20px;
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    font-weight: 600;
+}
+
+.go_back_btn:hover {
+    text-decoration: underline;
+}
