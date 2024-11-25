@@ -8,6 +8,8 @@
     flex-direction: column;
     width: 100%;
     height: calc(100vh - 60px);
+    background-color: white;
+    z-index: 1000;
 }
 
 .loader {

@@ -8,14 +8,8 @@ export const getCharacters = async () => {
     return data;
 };
 
-export const getFiltredCharacters = async (page, gender, species, status, name) => {
-    const params = new URLSearchParams();
-
-    if (page) params.append("page", page);
-    if (gender && gender !== "Gender") params.append("gender", gender);
-    if (species && species !== "Species") params.append("species", species);
-    if (status && status !== "Status") params.append("status", status);
-    if (name) params.append("name", name);
+export const getFiltredCharacters = async (queryParams) => {
+    const params = new URLSearchParams(queryParams);
 
     const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
 

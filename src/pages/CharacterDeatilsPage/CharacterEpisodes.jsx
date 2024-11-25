@@ -26,16 +26,26 @@ const CharacterEpisodes = ({ urls }) => {
 
     return (
         <ul className={`${s.character__info} ${s.episodes_list}`}>
-            {data.map((episode, index) => (
-                <li key={episode.id + index}>
-                    <Link to={`episodes/${episode.id}`} className={s.info__link}>
-                        <h3 className={s.info__title}>{episode.episode}</h3>
-                        <p className={s.info__subtitle}>{episode.name}</p>
-                        <p className={s.info__air_date}>{episode.air_date}</p>
+            {Array.isArray(data)
+              ? data.map((episode, index) => (
+                    <li key={episode.id + index}>
+                        <Link to={`/episodes/${episode.id}`} className={s.info__link}>
+                            <h3 className={s.info__title}>{episode.episode}</h3>
+                            <p className={s.info__subtitle}>{episode.name}</p>
+                            <p className={s.info__air_date}>{episode.air_date}</p>
+                            <div className={s.info__arrow}><img src={arrow} alt="" /></div>
+                        </Link>
+                    </li>
+                ))
+              : <li>
+                    <Link to={`/episodes/${data.id}`} className={s.info__link}>
+                        <h3 className={s.info__title}>{data.episode}</h3>
+                        <p className={s.info__subtitle}>{data.name}</p>
+                        <p className={s.info__air_date}>{data.air_date}</p>
                         <div className={s.info__arrow}><img src={arrow} alt="" /></div>
                     </Link>
                 </li>
-            ))}
+            }
         </ul>
     )
 }

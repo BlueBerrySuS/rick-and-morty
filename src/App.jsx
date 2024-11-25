@@ -5,6 +5,7 @@ import Header from './components/Header/Header'
 import EpisodesPage from './pages/EpisodesPage/EpisodesPage'
 import PageLoader from './components/Loader/PageLoader'
 import CharacterDetailsPage from './pages/CharacterDeatilsPage/CharacterDetailsPage'
+import PageNotFound from './components/PageNotFound/PageNotFound'
  
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path={'/episodes'} element={<EpisodesPage/>}/>
         <Route path={'/locations'} element={<PageLoader/>}/>
         <Route path={'/characters/:id'} element={<CharacterDetailsPage/>}/>
+        <Route path={'*'} element={<PageNotFound/>}/>
       </Routes>
     </>
   )

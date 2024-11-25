@@ -1,4 +1,10 @@
+import { lazy } from "react";
+
 export const genderOptions = [ 
+    {
+        label: 'All Gender',
+        value: ''
+    },
     { 
         label: 'Female', 
         value: 'female'
@@ -18,6 +24,10 @@ export const genderOptions = [
 ];
 
 export const speciesOptions = [ 
+    {
+        label: 'All Species',
+        value: ''
+    },
     { 
         label: 'Human', 
         value:'human'
@@ -29,6 +39,10 @@ export const speciesOptions = [
 ];
 
 export const statusOptions = [ 
+    {
+        label: "All Status",
+        value: ''
+    },
     { 
         label: 'Alive', 
         value: 'alive'
