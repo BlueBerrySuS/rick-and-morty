@@ -1,5 +1,5 @@
-import { getCharacters } from "../../utils/dataFetchOptions"
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import CharactersList from "../../components/CharactersList/CharactersList";
 import s from './CharactersPage.module.css'
 import image from '../../assets/img/characters-img.svg'

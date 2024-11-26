@@ -1,3 +1,5 @@
+import { responsiveArray } from "antd/es/_util/responsiveObserver";
+
 export const getCharacters = async () => {
     const response = await fetch("https://rickandmortyapi.com/api/character");
 
@@ -44,16 +46,14 @@ export const getEpisodes = async () => {
     return data;
 }
 
-export const getFiltredEpisodes = async (page,name) => {
-    const params = new URLSearchParams();
+export const getFiltredEpisodes = async (queryParams) => {
+    const params = new URLSearchParams(queryParams);
     const pattern = /^S\d/
 
-    params.append("page", page);
-
-    if(pattern.test(name))
-        params.append("episode", name);
-    else
-        params.append("name", name);
+    if(pattern.test(params.get("name"))) {
+        params.append("episode", params.get("name"));
+        params.delete("name");
+    }
 
     const response = await fetch(`https://rickandmortyapi.com/api/episode?${params.toString()}`);
 
@@ -74,10 +74,31 @@ export const getEpisodeById = async (id) => {
     return data;
 }
 
+export const getLocations = async () => {
+    const response = await fetch("https://rickandmortyapi.com/api/location")
+
+    if(!response.ok)
+        throw new Error(`getLocations response error: ${response.status}`)
+
+    const data = await response.json()
+    return data;
+}
+
+export const getFiltredLocations = async (queryParams) => {
+    const params = new URLSearchParams(queryParams);
+
+    const response = await fetch(`https://rickandmortyapi.com/api/location?${params.toString()}`);
+
+    if(!response.ok)
+        throw new Error(`getFiltredLocations response error: ${response.status}`);
+    
+    const data = await response.json();
+    return data;
+}
+
 
 export const getEndOfUrl = (url) => {
     const pattern = /\/(\d+)$/;
     const match = url.match(pattern);
     return match? match[1] : null;
-    
 }

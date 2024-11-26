@@ -6,6 +6,7 @@ import EpisodesPage from './pages/EpisodesPage/EpisodesPage'
 import PageLoader from './components/Loader/PageLoader'
 import CharacterDetailsPage from './pages/CharacterDeatilsPage/CharacterDetailsPage'
 import PageNotFound from './components/PageNotFound/PageNotFound'
+import LocationPage from './pages/LocationsPage/LocationPage'
  
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
       <Routes>
         <Route path={'/'} element={<CharactersPage/>}/>
         <Route path={'/episodes'} element={<EpisodesPage/>}/>
-        <Route path={'/locations'} element={<PageLoader/>}/>
+        <Route path={'/locations'} element={<LocationPage/>}/>
         <Route path={'/characters/:id'} element={<CharacterDetailsPage/>}/>
         <Route path={'*'} element={<PageNotFound/>}/>
       </Routes>

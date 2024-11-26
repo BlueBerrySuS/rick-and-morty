@@ -6,30 +6,17 @@ import EpisodesList from "../../components/EpisodesList/EpisodesList";
 import PageLoader from "../../components/Loader/PageLoader";
 
 const EpisodesPage = () => {
-    const [data, setData] = useState(null);
-
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await getEpisodes();
-                setData(response);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        getData();
-    }, [])
-
-    if(!data) return <PageLoader/>;
+    const [isLoaded, setIsLoaded] = useState(false);
 
     return (
         <>
+            {!isLoaded && <PageLoader/>}
             <div className={s.episodes__wrapper}>
                 <main className={s.episodes}>
                     <div className={s.episodes__img}>
                         <img src={image} alt="Episodes" />
                     </div>
-                    <EpisodesList data={data}/>
+                    <EpisodesList setIsLoaded={setIsLoaded}/>
                 </main>
             </div>
         </>

@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react'
-import { getEpisodes, getFiltredEpisodes } from '../../utils/dataFetchOptions';
-import s from '../../pages/EpisodesPage/EpisodesPage.module.css'
+import { useState, useEffect } from 'react';
+import s from '../../pages/LocationsPage/LocationPage.module.css'
 import FilterByName from '../Search/FilterByName';
 import NoData from '../CharactersList/NoData';
 import Paginator from '../Pagination/Paginator';
-import EpisodeCard from './EpisodeCard';
+import LocationCard from './LocationCard';
 import { useSearchParams } from 'react-router-dom';
+import FilterBySelect from '../Search/FilterBySelect';
+import { getLocations, getFiltredLocations } from '../../utils/dataFetchOptions';
 
-const EpisodesList = ({ setIsLoaded }) => {
-    const [episodes,setEpisodes] = useState(null)
+const LocationsList = ({ setIsLoaded }) => {
+    const [locations,setLocations] = useState(null)
     const [allPage, setAllPage] = useState(null);
     const [searchParams,setSearchParams] = useSearchParams();
     const [queryParams, setQueryParams] = useState({});
@@ -28,8 +29,8 @@ const EpisodesList = ({ setIsLoaded }) => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const data = await getEpisodes();
-                setEpisodes(data.results);
+                const data = await getLocations();
+                setLocations(data.results);
                 setAllPage(data.info.pages)
             } catch(error) {
                 console.error(error);
@@ -43,51 +44,55 @@ const EpisodesList = ({ setIsLoaded }) => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const data = await getFiltredEpisodes(queryParams);
-                setEpisodes(data.results);
+                const data = await getFiltredLocations(queryParams);
+                setLocations(data.results);
                 setAllPage(data.info.pages);
             } catch (error) {
-                setEpisodes(null);
+                setLocations(null);
                 setAllPage(null);
             }
         }
         getData();
     }, [queryParams])
 
-    const onHandleFilterByName = async (filterKey, value) => {
-        const newQueryParams = {...queryParams, page: 1};
+    const onHandleFilterChange = (filterKey, value) => {
+        const newQueryParams = {...queryParams, page: 1}
+        
+        if(value) 
+            newQueryParams[filterKey] = value
+        else 
+            delete newQueryParams[filterKey];
 
-        if(value)
-            newQueryParams[filterKey] = value;
-        else
-            delete newQueryParams[filterKey]
+        setSearchParams(newQueryParams, {replace: true});
 
-        setSearchParams(newQueryParams);
     }
 
     const onHandlePageChange = async (value) => {
-        const newQueryParams = {...queryParams, page: value}
-        setSearchParams(newQueryParams);
+        const newQueryParams = {
+            ...queryParams,
+            page: value,
+        }
+        setSearchParams(newQueryParams, {replace: true});
         window.scroll(0,0);
     }
-
+ 
     return (
         <>
-            <div className={s.episodes__search}>
-                <div className={s.episodes__search_filter}>
+            <div className={s.locations__search}>
+                <div className={s.locations__search_filter}>
                     <FilterByName 
-                        onHandleChange={(e) => onHandleFilterByName("name",e.target.value)}
+                        onHandleChange={(e) => onHandleFilterChange("name",e.target.value)}
                         value={queryParams.name? queryParams.name : ""} 
-                        placeholder={"Filter by name or episode (ex. S01 or S01E02)"}
+                        placeholder={"Filter by name"}
                     />
                 </div>
             </div>
-            {!episodes
+            {!locations
             ? <NoData/>
             :   <>
-                    <div className={s.episodes__list}>
-                        {episodes.map((episode) => (
-                            <EpisodeCard key={episode.id} episode={episode}/>
+                    <div className={s.locations__list}>
+                        {locations.map((location) => (
+                            <LocationCard key={location.id} location={location}/>
                         ))}
                     </div>
                     {!(allPage < 2) && <Paginator onHandleChange={onHandlePageChange} page={queryParams.page} allPages={allPage}/>}
@@ -97,4 +102,4 @@ const EpisodesList = ({ setIsLoaded }) => {
     )
 }
 
-export default EpisodesList;
+export default LocationsList;
