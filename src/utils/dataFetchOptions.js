@@ -1,99 +1,83 @@
-import { responsiveArray } from "antd/es/_util/responsiveObserver";
+import { instance } from "./instanseOptions";
 
 export const getCharacters = async () => {
-    const response = await fetch("https://rickandmortyapi.com/api/character");
-
-    if(!response.ok)
-        throw new Error(`getCharacters response error: ${response.status}`)
-
-    const data = await response.json();
-    return data;
+    try {
+        const response = await instance.get("character");
+        return response.data;
+    } catch(error) {
+        throw new Error(error.message);
+    }
 };
 
-export const getFiltredCharacters = async (queryParams) => {
-    const params = new URLSearchParams(queryParams);
-
-    const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
-
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error(`getFiltredCharacters response error: ${response.status}`)
+export const getFiltredCharacters = async ({...queryParams}) => {
+    try {
+        const response = await instance.get("character", {params: queryParams});
+        return response.data;
+    } catch(error) {
+        console.error(error.message);
     }
-
-    const data = await response.json();
-    return data;
 };
 
 export const getCharacterById = async ( id ) => {
-    const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
-
-    if(!response.ok)
-        throw new Error(`getCharacterById response error: ${response.status}`);
-
-    const data = await response.json();
-    return data;
+    try {
+        const response = await instance.get(`character/${id}`);
+        return response.data;
+    } catch(error) {
+        console.error(error.message);
+    }
 }
 
 export const getEpisodes = async () => {
-    const response = await fetch(`https://rickandmortyapi.com/api/episode`);
-
-    if(!response.ok)
-        throw new Error(`getEpisodes response error: ${response.status}`)
-
-    const data = await response.json();
-    return data;
+    try {
+        const response = await instance.get("episode");
+        return response.data;
+    } catch(error) {
+        console.error(error.message);
+    }
 }
 
-export const getFiltredEpisodes = async (queryParams) => {
-    const params = new URLSearchParams(queryParams);
-    const pattern = /^S\d/
+export const getFiltredEpisodes = async ({...queryParams}) => {
+    try {
+        const pattern = /^s\d/i;
 
-    if(pattern.test(params.get("name"))) {
-        params.append("episode", params.get("name"));
-        params.delete("name");
+        if(pattern.test(queryParams.name)) {
+            queryParams["episode"] = queryParams.name;
+            delete queryParams.name;
+        }
+
+        const response = await instance.get("episode", {params: queryParams});
+        return response.data;
+        
+    } catch(error) {
+        console.error(error.message);
     }
-
-    const response = await fetch(`https://rickandmortyapi.com/api/episode?${params.toString()}`);
-
-    if(!response.ok)
-        throw new Error(`getFiltredEpisodes response error: ${response.status}`)
-
-    const data = await response.json();
-    return data;
 }
 
 export const getEpisodeById = async (id) => {
-    const response = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
-
-    if(!response.ok)
-        throw new Error(`getEpisodeById response error: ${response.status}`)
-
-    const data = await response.json();
-    return data;
+    try {
+        const response = await instance.get(`episode/${id}`);
+        return response.data;
+    } catch(error) {
+        console.error(error.message);
+    }
 }
 
 export const getLocations = async () => {
-    const response = await fetch("https://rickandmortyapi.com/api/location")
-
-    if(!response.ok)
-        throw new Error(`getLocations response error: ${response.status}`)
-
-    const data = await response.json()
-    return data;
+    try {
+        const response = await instance.get("location");
+        return response.data;
+    } catch(error) {
+        console.error(error.message);
+    }
 }
 
-export const getFiltredLocations = async (queryParams) => {
-    const params = new URLSearchParams(queryParams);
-
-    const response = await fetch(`https://rickandmortyapi.com/api/location?${params.toString()}`);
-
-    if(!response.ok)
-        throw new Error(`getFiltredLocations response error: ${response.status}`);
-    
-    const data = await response.json();
-    return data;
+export const getFiltredLocations = async ({...queryParams}) => {
+    try {
+        const response = await instance.get("location", {params: queryParams});
+        return response.data;
+    } catch(error) {
+        console.error(error.message);
+    }
 }
 
 

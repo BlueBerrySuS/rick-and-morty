@@ -4,6 +4,7 @@ import { getCharacterById, getEndOfUrl } from "../../utils/dataFetchOptions";
 import s from './CharacterDetailsPage.module.css'
 import CharacterEpisodes from "./CharacterEpisodes";
 import PageLoader from "../../components/Loader/PageLoader";
+import arrow from "../../assets/img/arrow.svg";
 
 const CharacterDetailsPage = () => {
     const { id } = useParams();
@@ -48,6 +49,7 @@ const CharacterDetailsPage = () => {
                                 <Link to={`/loactions/${getEndOfUrl(data.origin.url)}`} className={s.info__link}>
                                     <h3 className={s.info__title}>Origin</h3>
                                     <p className={s.info__subtitle}>{data.origin.name}</p>
+                                    <div className={s.info__arrow}><img src={arrow} alt="" /></div>
                                 </Link>
                             </li>
                             <li>
@@ -58,6 +60,7 @@ const CharacterDetailsPage = () => {
                                 <Link to={`/locations/${getEndOfUrl(data.location.url)}`} className={s.info__link}>
                                     <h3 className={s.info__title}>Location</h3>
                                     <p className={s.info__subtitle}>{data.location.name}</p>
+                                    <div className={s.info__arrow}><img src={arrow} alt="" /></div>
                                 </Link>
                             </li>
                         </ul>

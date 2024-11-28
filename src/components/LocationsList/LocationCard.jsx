@@ -7,7 +7,7 @@ const LocationCard = ({ location }) => {
             <div className={s.location__text}>
                 <div className={s.location__name}>{location.name}</div>
                 <div className={s.location__type}>{location.type}</div>
-                <div className={s.location__type}>{location.dimension}</div>
+                <div className={s.location__dimension}>{location.dimension}</div>
             </div>
         </Link>
     )
