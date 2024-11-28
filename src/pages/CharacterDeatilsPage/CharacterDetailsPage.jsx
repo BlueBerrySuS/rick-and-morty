@@ -5,6 +5,7 @@ import s from './CharacterDetailsPage.module.css'
 import CharacterEpisodes from "./CharacterEpisodes";
 import PageLoader from "../../components/Loader/PageLoader";
 import arrow from "../../assets/img/arrow.svg";
+import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 const CharacterDetailsPage = () => {
     const { id } = useParams();
@@ -27,6 +28,7 @@ const CharacterDetailsPage = () => {
     return (
         <div className={s.character__wrapper}>
             <div className={s.character}>
+                <GoBackButton/>
                 <div className={s.character__img}><img src={data.image} alt="" /></div>
                 <h1 className={s.character__name}>{data.name}</h1>
                 <div className={s.character__infos__wrapper}>

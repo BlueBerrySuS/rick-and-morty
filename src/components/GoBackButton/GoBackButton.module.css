@@ -1,0 +1,38 @@
+.button {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    gap: 10px;
+}
+
+.button.active {
+    border-bottom: 2px solid black;
+}
+
+.button::before {
+    content: url("../../assets/img/arrow-back.svg");
+    position: absolute;
+    left: -20px;
+    transition: all 200ms ease-in-out;
+}
+
+.button.active::before {
+    transform: translateX(-10px);
+}
+
+.button__text {
+    position: relative;
+
+    font-family: Roboto,sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 21.04px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
